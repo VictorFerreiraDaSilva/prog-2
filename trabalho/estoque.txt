@@ -3,4 +3,4 @@
 3;42;mural 
 69;59;pika 
 22;1;Nataly 
-90;6;baldinho 
+90;0;baldinho 

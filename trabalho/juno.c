@@ -13,11 +13,17 @@ char frase[100];
 
 int main()
 {
+    file = fopen("estoque.txt", "rb+");
+    if(file == NULL) 
+    {
+        file = fopen("estoque.txt", "wb");
+    }
+    fclose(file);
     int escolha = 7;
     while(escolha != 0){
         int sair = 0;
         printf("--------------------------------------------\n");
-        printf("Digite o número referente a opção desejada:\n 1: Cadastrar Produto\n 2: Consultar Estoque de um Produto\n 3: Adicionar Produto ao Estoque\n 4: Retirar Produto do Estoque\n 0: Sair do Programa\n");
+        printf("Digite o numero referente a opcao desejada:\n 1: Cadastrar Produto\n 2: Consultar Estoque de um Produto\n 3: Adicionar Produto ao Estoque\n 4: Retirar Produto do Estoque\n 0: Sair do Programa\n");
         scanf("%d", &escolha);
         switch(escolha) {
           case 0:
@@ -48,7 +54,7 @@ int CadastrarProduto(){
     char nome[100];
     printf("Insira o Nome do produto: ");
     scanf("%s", &nome);
-    printf("Insira o Código do produto: ");
+    printf("Insira o Codigo do produto: ");
     scanf("%d", &codigo);
     printf("Insira a Quantidade existente do produto: ");
     scanf("%d", &quantidade);
@@ -60,8 +66,8 @@ int CadastrarProduto(){
 }
 
 int ConsultarEstoqueProduto(){
-    int codigo;
-    printf("Insira o Código do produto: ");
+    int codigo, achou = 0;
+    printf("Insira o Codigo do produto: ");
     scanf("%d", &codigo);
     int quantidade = 0;
     file = fopen("estoque.txt", "a+");
@@ -71,16 +77,18 @@ int ConsultarEstoqueProduto(){
         sscanf(frase, "%d;%d;%s", &cod, &qt, &nome);
         if(cod == codigo){
             printf("Nome: %s, Codigo: %d, Quantidade: %d \n", nome, cod, qt);
+            achou = 1;
             break;
         }                
     }
+    if(achou != 1) printf("Produto nao encontrado\n");
     if(fclose(file) == 0) return 1;
     else return 0;
 }
 
 int RetirarProduto(){
     int cd, quant;
-    printf("Insira o Código do produto: ");
+    printf("Insira o Codigo do produto: ");
     scanf("%d", &cd);
     printf("Insira a quantidade a ser retirada ao estoque: ");
     scanf("%d", &quant);
@@ -89,7 +97,7 @@ int RetirarProduto(){
 
 int AdicionarProduto(){
     int cd, quant;
-    printf("Insira o Código do produto: ");
+    printf("Insira o Codigo do produto: ");
     scanf("%d", &cd);
     printf("Insira a quantidade a ser adicionada ao estoque: ");
     scanf("%d", &quant);
@@ -116,7 +124,9 @@ int AlterarEstoque(int codigo, int quantidade){
             strcpy(N, nome);
         }
     }
-    fprintf(file2, "%d;%d;%s \n", C, (QTD+a), N);
+    int novaQt = (QTD+a);
+    if (novaQt < 0) novaQt = 0;
+    fprintf(file2, "%d;%d;%s \n", C, novaQt, N);
 
     fclose(file);
     fclose(file2);
