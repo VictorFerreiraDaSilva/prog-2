@@ -1,0 +1,6 @@
+12;30;agua 
+13;20;picanha 
+3;42;mural 
+69;59;pika 
+22;1;Nataly 
+90;6;baldinho 
